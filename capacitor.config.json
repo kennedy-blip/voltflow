@@ -1,0 +1,11 @@
+{
+  "appId": "app.voltflow.ledger",
+  "appName": "VoltFlow",
+  "webDir": "dist-android",
+  "backgroundColor": "#080c14",
+  "android": {
+    "adjustMarginsForEdgeToEdge": "auto",
+    "allowMixedContent": false,
+    "webContentsDebuggingEnabled": false
+  }
+}
