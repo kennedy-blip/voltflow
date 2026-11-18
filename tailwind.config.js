@@ -1,4 +1,5 @@
 export default {
+  safelist: ['tone-mint', 'tone-amber', 'tone-sky', 'tone-violet', 'tone-rose', 'button-primary', 'button-secondary', 'button-quiet', 'button-danger', 'button-danger-outline'],
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
     extend: {

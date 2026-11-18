@@ -81,7 +81,7 @@ export default function AppShell({ children, native }) {
           <div className="mobile-brand"><Brand /></div>
           <div className="breadcrumbs" aria-label="Current location"><Gauge size={16} aria-hidden="true" /><span>Workspace</span><ChevronRight size={13} aria-hidden="true" /><strong>{page.name}</strong></div>
           <div className="topbar-actions">
-            <Link className="role-chip" to="/settings"><ShieldCheck size={15} aria-hidden="true" /><span>{isAdmin ? 'Admin mode' : 'Member mode'}</span></Link>
+            <Link className="role-chip" to="/settings" aria-label={isAdmin ? 'Admin mode settings' : 'Member mode settings'}><ShieldCheck size={15} aria-hidden="true" /><span>{isAdmin ? 'Admin mode' : 'Member mode'}</span></Link>
             <Notifications key={location.pathname} />
           </div>
         </div>

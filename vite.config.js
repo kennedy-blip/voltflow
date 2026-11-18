@@ -15,6 +15,8 @@ export default defineConfig(({ mode }) => {
         navigateFallback: '/index.html',
         navigateFallbackDenylist: [/^\/downloads\//],
         cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
       },
       manifest: {
         id: '/', name: 'VoltFlow — Apartment Energy Ledger', short_name: 'VoltFlow',
@@ -32,7 +34,10 @@ export default defineConfig(({ mode }) => {
       transformIndexHtml(html) { return html.replace(/^\s*<link rel="(?:icon|apple-touch-icon)"[^\n]*\n/gm, '\n'); },
     }].filter(Boolean),
     publicDir: android ? false : 'public',
-    build: { outDir: android ? 'dist-android' : 'dist' },
+    build: {
+      outDir: android ? 'dist-android' : 'dist',
+      rollupOptions: { output: { manualChunks(id) { if (/\/node_modules\/(?:framer-motion|motion-dom|motion-utils)\//.test(id)) return 'motion'; if (/\/node_modules\/(?:dexie|dexie-react-hooks)\//.test(id)) return 'offline'; } } },
+    },
     server: { host: '0.0.0.0', allowedHosts: ['.e2b.app'] },
     preview: { host: '0.0.0.0', allowedHosts: ['.e2b.app'] },
   };

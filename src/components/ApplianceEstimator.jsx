@@ -60,7 +60,7 @@ function EstimatorBody({ owner }) {
 
   async function update(item, fields) {
     const previous = edits.current.get(item.key);
-    const entry = { fields: { ...previous?.fields, ...fields }, id: Symbol() };
+    const entry = { fields: { ...previous?.fields, ...fields } };
     edits.current.set(item.key, entry);
     setDrafts((current) => ({ ...current, [item.key]: entry }));
     try { await saveEstimator({ ...item, ...entry.fields, owner }); }

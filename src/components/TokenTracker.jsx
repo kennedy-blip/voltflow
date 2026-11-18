@@ -47,7 +47,7 @@ function RoommateSnapshot() {
     <PanelHeading icon={UsersRound} title={isAdmin ? 'Roommate balances' : 'My electricity share'} description={isAdmin ? 'Split status at a glance' : 'Your personal settlement status'} />
     {visible.length ? <ul className="snapshot-list">{visible.map((person) => {
       const owing = totals.members.get(person.id)?.outstanding ?? 0;
-      return <li key={person.id} className="snapshot-row"><Avatar person={person} /><div className="snapshot-name"><strong>{person.name}</strong><span>{person.archived ? 'Archived profile' : person.label}</span></div><span className={`pill ${owing ? 'pill-amber' : 'pill-green'}`}>{owing ? formatMoney(owing) : 'Settled'}</span></li>;
+      return <li key={person.id} className="snapshot-row"><Avatar person={person} /><div className="snapshot-name"><strong>{person.name}</strong><span>{person.archived ? 'Archived profile' : person.label}</span></div><span className={`pill ${owing ? 'pill-amber' : 'pill-green'}`}>{owing ? `${formatMoney(owing)} due` : 'Settled'}</span></li>;
     })}</ul> : <EmptyState icon={UsersRound} title="No roommates yet" description="Set up profiles in the bill splitter." />}
     <Link to="/splitter" className="snapshot-footer">{isAdmin ? 'Open bill splitter' : 'View my contributions'} <ArrowRight size={16} aria-hidden="true" /></Link>
   </section>;

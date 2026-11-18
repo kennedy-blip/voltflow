@@ -17,7 +17,7 @@ function ChartPlot({ data, period }) {
   const gradient = useId();
   const [active, setActive] = useState(null);
   const count = data.length;
-  const max = Math.max(6, Math.ceil(Math.max(...data.map((point) => point.value ?? 0)) / 4) * 4);
+  const max = Math.max(6, Math.ceil(Math.max(...data.map((point) => point.value ?? 0)) / 6) * 6);
   const points = data.map((point, i) => ({ ...point, x: P + (W - P * 2) * i / (count - 1), y: H - ((point.value ?? 0) / max) * H }));
   const segments = [];
   let segment = [];
