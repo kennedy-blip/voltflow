@@ -1,0 +1,13 @@
+node_modules/
+dist/
+dist-android/
+coverage/
+.vercel/
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+android/local.properties
+public/downloads/manifest.json
+.DS_Store

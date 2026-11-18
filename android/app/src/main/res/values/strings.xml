@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">VoltFlow</string>
+    <string name="title_activity_main">VoltFlow</string>
+    <string name="package_name">app.voltflow.ledger</string>
+    <string name="custom_url_scheme">app.voltflow.ledger</string>
+</resources>

@@ -1,0 +1,45 @@
+@font-face{font-family:'Manrope Variable';src:url('@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2') format('woff2');font-style:normal;font-weight:200 800;font-display:swap}
+@font-face{font-family:'Space Grotesk Variable';src:url('@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2') format('woff2');font-style:normal;font-weight:300 700;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url('@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2') format('woff2');font-style:normal;font-weight:500;font-display:swap}
+
+:root {
+  color-scheme: dark;
+  --bg: #080c14; --rail: #0b111a; --topbar: rgb(9 14 22 / .88);
+  --surface: #111923; --glass: rgb(17 25 35 / .88); --glass-2: rgb(12 20 29 / .88); --surface-hover: #17232e;
+  --line: #23303e; --line-soft: #202b37; --line-strong: #2b3a48;
+  --ink: #eff7f8; --muted: #9baab8; --muted-2: #8596a6;
+  --accent: #67edbf; --accent-strong: #55efb2; --accent-ink: #06251b; --accent-line: rgb(92 233 185 / .26);
+  --accent-soft: rgb(76 237 181 / .095); --accent-hover: rgb(97 239 192 / .15);
+  --chart: #59e9b8; --mesh-a: rgb(19 110 102 / .17); --mesh-b: rgb(41 58 127 / .14);
+  --amber: #f4c575; --rose: #ff9aaa; --sky: #85c9f4; --violet: #bcabf9;
+  --darken: rgb(0 0 0 / .13); --shadow: 0 11px 30px rgb(0 0 0 / .14);
+  --input: #0c141e; --dialog: #111c26; --soft-fill: rgb(134 167 192 / .055);
+  --heading-font: 'Space Grotesk Variable', sans-serif; --body-font: 'Manrope Variable', sans-serif; --mono-font: 'IBM Plex Mono', monospace;
+  --rail-width: 244px; --content-gutter: 34px; --radius: 16px; --frame: 1560px;
+}
+
+:root[data-theme='solar'] {
+  color-scheme: light;
+  --bg: #eff3f2; --rail: #f7faf9; --topbar: rgb(250 252 251 / .91);
+  --surface: #fff; --glass: rgb(255 255 255 / .85); --glass-2: rgb(246 249 247 / .92); --surface-hover: #f1f5f1;
+  --line: #d5e0de; --line-soft: #dfe7e4; --line-strong: #cbd6d2;
+  --ink: #172825; --muted: #465d56; --muted-2: #526b62;
+  --accent: #8b4806; --accent-strong: #f6ad43; --accent-ink: #291901; --accent-line: rgb(169 93 17 / .31);
+  --accent-soft: rgb(222 140 31 / .105); --accent-hover: rgb(222 140 31 / .16);
+  --chart: #b0610b; --mesh-a: rgb(237 164 63 / .15); --mesh-b: rgb(64 154 142 / .15);
+  --amber: #8a4d08; --rose: #9e3045; --sky: #205d84; --violet: #644295;
+  --darken: rgb(27 48 43 / .055); --shadow: 0 10px 28px rgb(40 66 61 / .07);
+  --input: #fff; --dialog: #fff; --soft-fill: rgb(43 81 69 / .048);
+}
+
+:root[data-theme='matrix'] {
+  --bg: #03100b; --rail: #05150e; --topbar: rgb(3 16 11 / .9);
+  --surface: #0a2116; --glass: rgb(7 29 18 / .91); --glass-2: rgb(5 23 14 / .92); --surface-hover: #0e2e1c;
+  --line: #204c31; --line-soft: #163c27; --line-strong: #285238;
+  --ink: #e3ffe9; --muted: #a2c6ad; --muted-2: #99bda5;
+  --accent: #97ff8e; --accent-strong: #a3ff75; --accent-ink: #102308; --accent-line: rgb(131 255 114 / .32);
+  --accent-soft: rgb(109 255 126 / .08); --accent-hover: rgb(125 255 115 / .16);
+  --chart: #9dff72; --mesh-a: rgb(31 151 54 / .24); --mesh-b: rgb(13 127 87 / .17);
+  --amber: #ffd27b; --rose: #ff9da8; --sky: #8cdec5; --violet: #c5b4ff;
+  --input: #05170f; --dialog: #0c2619; --soft-fill: rgb(167 252 178 / .057);
+}

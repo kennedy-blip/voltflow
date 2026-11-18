@@ -1,0 +1,98 @@
+name: Verify and package VoltFlow
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: voltflow-web
+          path: dist/
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platforms;android-35 build-tools;35.0.0'
+      - run: npm ci
+      - run: npm run android:sync
+      - name: Assemble and verify the APK
+        env:
+          VOLTFLOW_KEYSTORE_BASE64: ${{ secrets.VOLTFLOW_KEYSTORE_BASE64 }}
+          VOLTFLOW_STORE_PASSWORD: ${{ secrets.VOLTFLOW_STORE_PASSWORD }}
+          VOLTFLOW_KEY_ALIAS: ${{ secrets.VOLTFLOW_KEY_ALIAS }}
+          VOLTFLOW_KEY_PASSWORD: ${{ secrets.VOLTFLOW_KEY_PASSWORD }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/voltflow"
+          if [[ -n "$VOLTFLOW_KEYSTORE_BASE64" ]]; then
+            export VOLTFLOW_KEYSTORE="$RUNNER_TEMP/voltflow-signing.jks"
+            umask 077
+            trap 'rm -f "$VOLTFLOW_KEYSTORE"' EXIT
+            printf '%s' "$VOLTFLOW_KEYSTORE_BASE64" | base64 --decode > "$VOLTFLOW_KEYSTORE"
+            (cd android && ./gradlew --no-daemon :app:assembleRelease)
+            cp android/app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/voltflow/voltflow.apk"
+            echo release > "$RUNNER_TEMP/voltflow/channel.txt"
+          else
+            (cd android && ./gradlew --no-daemon :app:assembleDebug)
+            cp android/app/build/outputs/apk/debug/app-debug.apk "$RUNNER_TEMP/voltflow/voltflow.apk"
+            echo preview > "$RUNNER_TEMP/voltflow/channel.txt"
+          fi
+          cd "$RUNNER_TEMP/voltflow"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose --print-certs voltflow.apk
+          sha256sum voltflow.apk > sha256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: voltflow-android
+          path: ${{ runner.temp }}/voltflow/
+  web-with-apk:
+    needs: [web, android]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/download-artifact@v4
+        with:
+          name: voltflow-android
+          path: ${{ runner.temp }}/voltflow/
+      - run: npm ci
+      - name: Include the verified APK in the web deployment
+        run: |
+          mkdir -p public/downloads
+          cp "$RUNNER_TEMP/voltflow/voltflow.apk" public/downloads/voltflow.apk
+          ANDROID_APK_CHANNEL="$(cat "$RUNNER_TEMP/voltflow/channel.txt")" npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: voltflow-web-with-apk
+          path: dist/
