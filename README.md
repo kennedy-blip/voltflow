@@ -30,6 +30,8 @@ VoltFlow does not sync records between phones, browsers, or web and Android inst
 
 Import the repository in Vercel and select the Vite preset (the build/output rules and route rewrites are in `vercel.json`). Use Node 22. A preview can be built from the current branch without promoting it to production. No utility account, API key, or database service is required.
 
+This branch bundles a verified, debug-signed Android preview, so the APK Center works out of the box on Vercel and in the local preview. For production, replace the preview with your signed APK or configure a release URL.
+
 The web build publishes `/downloads/manifest.json`. If `public/downloads/voltflow.apk` is present, the manifest includes a same-origin download link, file size, and SHA-256. Or set `ANDROID_APK_URL` to a stable HTTPS APK asset URL (for example, a public GitHub Release attachment). For a signed production release, set `ANDROID_APK_CHANNEL=release`. See `.env.example`. If neither is configured, the APK Center shows that no build is published rather than linking to an invalid file. APK files are excluded from browser precaching and from the native app bundle.
 
 ## Build Android
@@ -46,7 +48,7 @@ npm run build
 
 Debug APKs are installable previews. Android requires allowing installs from the browser or file manager if the APK is sideloaded. For a release, supply `VOLTFLOW_KEYSTORE` (filesystem path), `VOLTFLOW_STORE_PASSWORD`, `VOLTFLOW_KEY_ALIAS`, and `VOLTFLOW_KEY_PASSWORD` through your local environment and run `npm run android:release`. Keep the key outside Git and reuse it for updates; increment the Android `versionCode` for each release. Verify the APK with `apksigner verify --verbose app-release.apk` before publishing it. Never put signing credentials in Vercel’s client build or in the repo.
 
-The **Verify and package VoltFlow** GitHub Actions workflow checks the web app and uses the Android SDK to publish an installable `voltflow-android` artifact. Where the corresponding encrypted GitHub Actions secrets (including `VOLTFLOW_KEYSTORE_BASE64` in place of the file path) are available, it produces a signed release instead. For production distribution, publish the verified release APK on stable hosting and point the APK Center to that asset.
+The **Verify and package VoltFlow** GitHub Actions workflow checks the web app and uses the Android SDK to publish an installable `voltflow-android` artifact. Where the corresponding encrypted GitHub Actions secrets (including `VOLTFLOW_KEYSTORE_BASE64` in place of the file path) are available, it produces a signed release instead. The `voltflow-web-with-apk` artifact is a ready-to-host web bundle containing the APK built in that same run. For production distribution, publish the verified release APK on stable hosting and point the APK Center to that asset.
 
 ## Source layout
 
